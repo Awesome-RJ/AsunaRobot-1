@@ -86,7 +86,7 @@ async def hmm(_, message):
         message.continue_propagation()
     status = message.text.split(None, 1)[1]
     chat_id = message.chat.id
-    if status == "ON" or status == "on" or status == "On":
+    if status in ["ON", "on", "On"]:
         lel = await edit_or_reply(message, "`Processing...`")
         lol = add_chat(int(message.chat.id))
         if not lol:
@@ -96,7 +96,7 @@ async def hmm(_, message):
             f"Asuna AI Successfully Added For Users In The Chat {message.chat.id}"
         )
 
-    elif status == "OFF" or status == "off" or status == "Off":
+    elif status in ["OFF", "off", "Off"]:
         lel = await edit_or_reply(message, "`Processing...`")
         Escobar = remove_chat(int(message.chat.id))
         if not Escobar:
@@ -106,8 +106,8 @@ async def hmm(_, message):
             f"Asuna AI Successfully Deactivated For Users In The Chat {message.chat.id}"
         )
 
-    elif status == "EN" or status == "en" or status == "english":
-        if not chat_id in en_chats:
+    elif status in ["EN", "en", "english"]:
+        if chat_id not in en_chats:
             en_chats.append(chat_id)
             await message.reply_text("English AI chat Enabled!")
             return
@@ -132,6 +132,10 @@ async def hmm(client, message):
     chat_id = message.chat.id
     if msg.startswith("/") or msg.startswith("@"):
         message.continue_propagation()
+    headers = {
+        "x-rapidapi-key": "cf9e67ea99mshecc7e1ddb8e93d1p1b9e04jsn3f1bb9103c3f",
+        "x-rapidapi-host": "acobot-brainshop-ai-v1.p.rapidapi.com",
+    }
     if chat_id in en_chats:
         test = msg
         test = test.replace("asuna", "Aco")
@@ -142,10 +146,6 @@ async def hmm(client, message):
             "uid": "mashape",
             "msg": {test},
         }
-        headers = {
-            "x-rapidapi-key": "cf9e67ea99mshecc7e1ddb8e93d1p1b9e04jsn3f1bb9103c3f",
-            "x-rapidapi-host": "acobot-brainshop-ai-v1.p.rapidapi.com",
-        }
         response = requests.request("GET", url, headers=headers, params=querystring)
         result = response.text
         result = result.replace('{"cnt":"', "")
@@ -154,11 +154,6 @@ async def hmm(client, message):
         result = result.replace("<a href=\\", "<a href =")
         result = result.replace("<\/a>", "</a>")
         pro = result
-        try:
-            await asuna.send_chat_action(message.chat.id, "typing")
-            await message.reply_text(pro)
-        except CFError as e:
-            print(e)
     else:
         u = msg.split()
         emj = extract_emojis(msg)
@@ -190,7 +185,7 @@ async def hmm(client, message):
             # print (rm)
             lan = translator.detect(rm)
         test = rm
-        if not "en" in lan and not lan == "":
+        if "en" not in lan and lan != "":
             test = translator.translate(test, lang_tgt="en")
 
         # test = emoji.demojize(test.strip())
@@ -204,10 +199,6 @@ async def hmm(client, message):
             "uid": "mashape",
             "msg": {test},
         }
-        headers = {
-            "x-rapidapi-key": "cf9e67ea99mshecc7e1ddb8e93d1p1b9e04jsn3f1bb9103c3f",
-            "x-rapidapi-host": "acobot-brainshop-ai-v1.p.rapidapi.com",
-        }
         response = requests.request("GET", url, headers=headers, params=querystring)
         result = response.text
         result = result.replace('{"cnt":"', "")
@@ -216,13 +207,13 @@ async def hmm(client, message):
         result = result.replace("<a href=\\", "<a href =")
         result = result.replace("<\/a>", "</a>")
         pro = result
-        if not "en" in lan and not lan == "":
+        if "en" not in lan and lan != "":
             pro = translator.translate(pro, lang_tgt=lan[0])
-        try:
-            await asuna.send_chat_action(message.chat.id, "typing")
-            await message.reply_text(pro)
-        except CFError as e:
-            print(e)
+    try:
+        await asuna.send_chat_action(message.chat.id, "typing")
+        await message.reply_text(pro)
+    except CFError as e:
+        print(e)
 
 
 @asuna.on_message(filters.text & filters.private & filters.reply & ~filters.bot)
@@ -260,7 +251,7 @@ async def inuka(client, message):
         # print (rm)
         lan = translator.detect(rm)
     test = rm
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         test = translator.translate(test, lang_tgt="en")
 
     # test = emoji.demojize(test.strip())
@@ -286,7 +277,7 @@ async def inuka(client, message):
     result = result.replace("<a href=\\", "<a href =")
     result = result.replace("<\/a>", "</a>")
     pro = result
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         pro = translator.translate(pro, lang_tgt=lan[0])
     try:
         await daisyx.send_chat_action(message.chat.id, "typing")
@@ -337,7 +328,7 @@ async def inuka(client, message):
         # print (rm)
         lan = translator.detect(rm)
     test = rm
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         test = translator.translate(test, lang_tgt="en")
 
     # test = emoji.demojize(test.strip())
@@ -363,7 +354,7 @@ async def inuka(client, message):
     result = result.replace("<a href=\\", "<a href =")
     result = result.replace("<\/a>", "</a>")
     pro = result
-    if not "en" in lan and not lan == "":
+    if "en" not in lan and lan != "":
         pro = translator.translate(pro, lang_tgt=lan[0])
     try:
         await asuna.send_chat_action(message.chat.id, "typing")

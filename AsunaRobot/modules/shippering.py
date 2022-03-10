@@ -9,14 +9,12 @@ from datetime import datetime
 def dt():
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M")
-    dt_list = dt_string.split(' ')
-    return dt_list
+    return dt_string.split(' ')
 
 
 def dt_tom():
-    a = str(int(dt()[0].split('/')[0]) + 1)+"/" + \
+    return str(int(dt()[0].split('/')[0]) + 1)+"/" + \
         dt()[0].split('/')[1]+"/" + dt()[0].split('/')[2]
-    return a
 
 
 today = str(dt()[0])
